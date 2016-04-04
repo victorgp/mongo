@@ -94,10 +94,10 @@ namespace {
         }
     }
 
-    Status ExternalSaslAuthenticationSession::start(const StringData& authenticationDatabase,
-                                                    const StringData& mechanism,
-                                                    const StringData& serviceName,
-                                                    const StringData& serviceHostname,
+    Status ExternalSaslAuthenticationSession::start(StringData authenticationDatabase,
+                                                    StringData mechanism,
+                                                    StringData serviceName,
+                                                    StringData serviceHostname,
                                                     int64_t conversationId,
                                                     bool autoAuthorize) {
         if (_conversationId != 0) {
@@ -119,7 +119,7 @@ namespace {
         return this->initializeConnection();
     }
 
-    Status ExternalSaslAuthenticationSession::step(const StringData& inputData, std::string* outputData) {
+    Status ExternalSaslAuthenticationSession::step(StringData inputData, std::string* outputData) {
         if (_saslStep++ == 0) {
             this->processInitialClientPayload(inputData);
         } else {
@@ -226,10 +226,10 @@ namespace {
     IntegratedAuthenticationSession::~IntegratedAuthenticationSession() {
     }
 
-    Status IntegratedAuthenticationSession::start(const StringData& authenticationDatabase,
-                                                  const StringData& mechanism,
-                                                  const StringData& serviceName,
-                                                  const StringData& serviceHostname,
+    Status IntegratedAuthenticationSession::start(StringData authenticationDatabase,
+                                                  StringData mechanism,
+                                                  StringData serviceName,
+                                                  StringData serviceHostname,
                                                   int64_t conversationId,
                                                   bool autoAuthorize) {
         if (authenticationDatabase == saslDefaultDBName) {
@@ -251,7 +251,7 @@ namespace {
                                                       autoAuthorize);
     }
 
-    Status IntegratedAuthenticationSession::step(const StringData& inputData, std::string* outputData) {
+    Status IntegratedAuthenticationSession::step(StringData inputData, std::string* outputData) {
         if (_external) {
             return this->ExternalSaslAuthenticationSession::step(inputData, outputData);
         }
